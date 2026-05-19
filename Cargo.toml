@@ -1,0 +1,19 @@
+[package]
+name = "nactl"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1"
+clap = { version = "4.5", features = ["derive"] }
+dirs = "5.0"
+reqwest = { version = "0.11", default-features = false, features = [
+    "json",
+    "rustls-tls",
+] }
+rmcp = { version = "0.16.0", features = ["server", "macros"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_yml = "0.0.12"
+tempfile = "3"
+tokio = { version = "1", features = ["full"] }
