@@ -41,7 +41,10 @@ pub fn print_config_list(result: &ConfigListResult, output: OutputFormat) -> Res
                 "page {} / {}, total {}",
                 result.page_number, result.pages_available, result.total_count
             );
-            println!("{:<4} {:<42} {:<24} {:<12}", "#", "DATA ID", "GROUP", "TYPE");
+            println!(
+                "{:<4} {:<42} {:<24} {:<12}",
+                "#", "DATA ID", "GROUP", "TYPE"
+            );
             for (index, item) in result.page_items.iter().enumerate() {
                 println!(
                     "{:<4} {:<42} {:<24} {:<12}",

@@ -63,7 +63,8 @@ impl NactlMcpServer {
                 context_path: self.runtime.context_path.clone(),
                 namespace: self.runtime.namespace.clone(),
                 has_access_token: self.runtime.access_token.is_some(),
-                has_username_password: self.runtime.username.is_some() && self.runtime.password.is_some(),
+                has_username_password: self.runtime.username.is_some()
+                    && self.runtime.password.is_some(),
                 config_path: self
                     .runtime
                     .config_path
@@ -124,11 +125,11 @@ impl NactlMcpServer {
         match result {
             Ok(result) => structured_tool_result(
                 ConfigGetOutput {
-                data_id: args.data_id,
-                group,
-                namespace: args.namespace_hint.unwrap_or_else(|| "public".to_string()),
-                found: result.is_some(),
-                content: result.map(|item| item.content),
+                    data_id: args.data_id,
+                    group,
+                    namespace: args.namespace_hint.unwrap_or_else(|| "public".to_string()),
+                    found: result.is_some(),
+                    content: result.map(|item| item.content),
                 },
                 false,
             ),
@@ -136,10 +137,7 @@ impl NactlMcpServer {
         }
     }
 
-    #[tool(
-        name = "nactl_config_set",
-        description = "创建或更新配置项"
-    )]
+    #[tool(name = "nactl_config_set", description = "创建或更新配置项")]
     async fn config_set_tool(
         &self,
         params: Parameters<ConfigSetArgs>,
@@ -160,10 +158,10 @@ impl NactlMcpServer {
         match result {
             Ok(()) => structured_tool_result(
                 ConfigMutationOutput {
-                action: "set".to_string(),
-                data_id: args.data_id,
-                group,
-                success: true,
+                    action: "set".to_string(),
+                    data_id: args.data_id,
+                    group,
+                    success: true,
                 },
                 false,
             ),
@@ -171,10 +169,7 @@ impl NactlMcpServer {
         }
     }
 
-    #[tool(
-        name = "nactl_config_remove",
-        description = "删除配置项"
-    )]
+    #[tool(name = "nactl_config_remove", description = "删除配置项")]
     async fn config_remove_tool(
         &self,
         params: Parameters<ConfigRemoveArgs>,
@@ -189,10 +184,10 @@ impl NactlMcpServer {
         match result {
             Ok(()) => structured_tool_result(
                 ConfigMutationOutput {
-                action: "remove".to_string(),
-                data_id: args.data_id,
-                group,
-                success: true,
+                    action: "remove".to_string(),
+                    data_id: args.data_id,
+                    group,
+                    success: true,
                 },
                 false,
             ),
@@ -395,7 +390,8 @@ impl Transport<RoleServer> for StandardIoTransport {
 
     fn receive(&mut self) -> impl Future<Output = Option<RxJsonRpcMessage<RoleServer>>> + Send {
         async {
-            match read_transport_message::<_, RxJsonRpcMessage<RoleServer>>(&mut self.reader).await {
+            match read_transport_message::<_, RxJsonRpcMessage<RoleServer>>(&mut self.reader).await
+            {
                 Ok(Some((message, framing))) => {
                     let mut guard = self.writer.lock().await;
                     if guard.framing.is_none() {

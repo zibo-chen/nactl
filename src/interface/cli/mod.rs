@@ -5,14 +5,16 @@ use std::fs;
 use std::path::Path;
 use std::process::Command;
 
-use anyhow::{bail, Context};
+use anyhow::{Context, bail};
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use tempfile::NamedTempFile;
 use tokio::io::AsyncReadExt;
 
 use crate::error::AppResult;
 use crate::infrastructure::config::persist_auth;
-use crate::infrastructure::nacos::{ConfigGetResult, ConfigSetRequest, SearchMode as ClientSearchMode};
+use crate::infrastructure::nacos::{
+    ConfigGetResult, ConfigSetRequest, SearchMode as ClientSearchMode,
+};
 use crate::interface::runtime::RuntimeBootstrap;
 
 #[derive(Debug, Clone, Parser)]
@@ -300,8 +302,8 @@ async fn resolve_content(value: Option<&str>, file: Option<&Path>) -> AppResult<
     }
 
     if let Some(file) = file {
-        let content =
-            fs::read_to_string(file).with_context(|| format!("failed to read {}", file.display()))?;
+        let content = fs::read_to_string(file)
+            .with_context(|| format!("failed to read {}", file.display()))?;
         return ensure_non_empty(content);
     }
 
